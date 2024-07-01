@@ -1,0 +1,99 @@
+<form [formGroup]="empData" (ngSubmit)="onsubmit()">
+  Enter Name:
+  <input type="text" formControlName="name">
+  <div *ngIf="empData.controls['name'].invalid && isSubmit">
+    <div *ngIf="empData.controls['name'].errors?.['required']">
+      Name field is required...
+    </div>
+  </div>
+  <br><br>
+  Enter Email:
+  <input type="text" formControlName="mail">
+  <div *ngIf="empData.controls['mail'].invalid && isSubmit">
+    <div *ngIf="empData.controls['mail'].errors?.['required']">
+      Mail field is required...
+    </div>
+  </div>
+  <br><br>
+  Select Gender:
+  <span *ngFor="let data of gender">
+    <input type="radio" [value]="data" formControlName="gender">{{data}}
+  </span>
+  <div *ngIf="empData.controls['gender'].invalid && isSubmit">
+    <div *ngIf="empData.controls['gender'].errors?.['required']">
+      Gender field is required...
+    </div>
+  </div>
+  <br><br>
+  <label>Select Language:-</label>
+  <div>
+    <span *ngFor="let item of languages; index as i" formArrayName="language">
+      <input type="checkbox" [formControlName]="i">{{item}}
+    </span>
+    <div *ngIf="empData.controls['language'].invalid && isSubmit">
+      <div *ngIf="empData.controls['language'].errors?.['languageError']">
+        Language field is required...
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <div formArrayName="qualyfication">
+    <div *ngFor="let data of qualyControl.controls, let i=index">
+      <div [formGroupName]="i">
+        Enter Degree:<input type="text" formControlName="degree">
+        <div *ngIf="qualyControl.at(i).get('degree')?.invalid && isSubmit">
+          <div *ngIf="qualyControl.at(i).get('degree')?.errors?.['required']">
+            Pleace enter Your Degree...
+          </div>
+        </div>
+
+        Institute Name:<input type="text" formControlName="univercity">
+        <div *ngIf="qualyControl.at(i).get('univercity')?.invalid && isSubmit">
+          <div *ngIf="qualyControl.at(i).get('univercity')?.errors?.['required']">
+            Pleace enter Your univercity...
+          </div>
+        </div>
+
+        <button type="button" *ngIf="i!=0" (click)="removeDegree(i)">Remove</button>
+      </div>
+    </div>
+  </div>
+  <button type="button" (click)="addQualification()">Add Degree</button>
+  <br><br>
+  Choose Skills:
+  <select multiple formControlName="skills">
+    <option *ngFor="let data of skills" [value]="data">{{data}}</option>
+  </select>
+  <div *ngIf="empData.controls['skills'].invalid && isSubmit">
+    <div *ngIf="empData.controls['skills'].errors?.['required']">
+      Skills field is required...
+    </div>
+  </div>
+  <br><br>
+  Enter password:
+  <input type="text" formControlName="password">
+  <br><br>
+  <div *ngIf="empData.controls['password'].invalid && isSubmit">
+    <div *ngIf="empData.controls['password'].errors?.['required']">
+      Password field is required...
+    </div>
+  </div>
+  Upload Photo:
+  <input type="file" (change)="onFileSelected($event)">
+  <div *ngIf="empData.controls['fileUpload'].invalid && isSubmit">
+    <div *ngIf="empData.controls['fileUpload'].errors?.['required']">
+      Photo,field is required...
+    </div>
+  </div>
+  <div *ngIf="empData.controls['fileUpload'].errors?.['invalidFileType']">
+    Only jpg,png,jpeg accepted
+  </div>
+  <div *ngIf="empData.controls['fileUpload'].errors?.['maxFileSize']">
+    Maximum 2mb file accepted...
+  </div>
+  <br><br>
+  <button type="submit">{{(formType=="new" ? "Save" : "Update")}}</button>
+  <button type="button" (click)="formReset()">Reset</button>
+</form>
+<br><br>
+<a routerLink="/">Go To LogIn</a>

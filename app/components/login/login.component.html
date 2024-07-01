@@ -1,0 +1,21 @@
+
+<form [formGroup]="logData" (ngSubmit)="onsubmit()">
+Enter Email:
+<input type="text" formControlName="logMail">
+<div *ngIf="logData.controls.logMail.invalid && isSubmit">
+<div *ngIf="logData.controls.logMail.hasError('required')" class="error">
+Please enter your Mail...
+</div>
+</div>
+<br><br>
+Enter password:
+<input type="text" formControlName="logPass">
+<div *ngIf="logData.controls.logPass.hasError('required') && isSubmit" class="error">
+    Please enter your Mail...
+    </div>
+<div class="error">{{message}}</div>
+<br><br>
+<button>Log In</button>
+<br><br>
+<a routerLink="/registration">New registration</a>
+</form>
